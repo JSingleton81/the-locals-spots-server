@@ -11,4 +11,13 @@ router.get("/business-list",(req, res) => {
   })
 })
 
+router.get("/category-list",(req, res) => { 
+  connection.query("SELECT * FROM categories", (err, rows) => {
+    if (err){
+      console.log(err)
+    }
+    res.json(rows)
+  })
+})
+
 module.exports = router
