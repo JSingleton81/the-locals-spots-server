@@ -54,4 +54,16 @@ const revalidateUser = (req, res) => {
   });
 };
 
-module.exports = { getProfile, revalidateUser };
+// New function to get total users
+const getTotalUsers = (req, res) => {
+  const sql = 'SELECT COUNT(*) AS totalUsers FROM user';
+  connection.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json({ totalUsers: results[0].totalUsers });
+  });
+};
+
+module.exports = { getProfile, revalidateUser, getTotalUsers };
+

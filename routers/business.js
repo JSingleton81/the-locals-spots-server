@@ -83,7 +83,35 @@ router.get("/get-user-business-list", validateUser, (req, res) => {
       return res.json();
     }
     res.status(200).json(results)
-  })
-})
+  });
+});
+
+// New endpoint to fetch total businesses
+router.get('/total-businesses', (req, res) => {
+  const sql = 'SELECT COUNT(*) AS totalBusinesses FROM my_business';
+  connection.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json({ totalBusinesses: results[0].totalBusinesses });
+  });
+});
+
+// New endpoint to fetch businesses added in the last 72 hours
+router.get('/new-businesses', (req, res) => {
+  const sql = `
+    SELECT * FROM my_business
+    WHERE created_at >= NOW() - INTERVAL 72 HOUR;
+  `;
+  connection.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
 
 module.exports = router;
+
+
