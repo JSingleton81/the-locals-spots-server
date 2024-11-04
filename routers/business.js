@@ -24,6 +24,7 @@ router.get("/category-list", (req, res) => {
 
 router.post("/add-business", validateUser, (req, res) => {
   console.log(req.user);
+  console.log(req.body);
   const { id } = req.user;
   const body = {
     user_id: id,
